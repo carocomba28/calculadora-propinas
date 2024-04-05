@@ -1,0 +1,90 @@
+<div class="flex justify-center items-center h-screen mx-auto p-4 max-w-sm">
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-lg mx-auto" data-v0-t="card">
+    <div class="flex flex-col space-y-1.5 p-3 items-center">
+      <h3 class="text-2xl font-semibold m-1 text-center">
+        Calculadora de propinas
+      </h3>
+      <p class="text-sm text-muted-foreground m-1 text-center">
+        Ingrese el monto total y el porcentaje de propina.
+      </p>
+    </div>
+    <div class="p-4 space-y-4">
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="total">
+          Monto
+        </label>
+        <input [(ngModel)]="monto"
+          class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="total" type="number" required>
+      </div>
+      <div class="space-y-2">
+        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="porcentaje">
+          Porcentaje de propina (%)
+        </label>
+        <select [(ngModel)]="porcentajePropina" name="porcentaje"
+          class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="porcentaje" required>
+          <option value="" disabled selected></option>
+          <option value="5">5% 🐀</option>
+          <option value="10">10%</option>
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+          <option value="25">25%</option>
+          <option value="30">30%</option>
+          <option value="35">35% 😎</option>
+        </select>
+      </div>
+      <div class="space-y-2">
+        <label for="propina" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Propina
+        </label>
+        <input [value]="propina" id="propina" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
+      </div>
+      <div class="space-y-2">
+        <label for="totalPagar" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Total a pagar
+        </label>
+        <input [value]="totalPagar" id="totalPagar" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
+      </div>
+      <div class="flex flex-col gap-4">
+        <button (click)="calcularPropinaYTotal()" id="btnCalcular" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 bg-black text-white">
+          Calcular
+        </button>
+        <button (click)="limpiarValores()" id="btnLimpiar" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+          Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const totalInput = document.getElementById('total');
+  const porcentajeInput = document.getElementById('porcentaje');
+  const propinaInput = document.getElementById('propina');
+  const totalPagarInput = document.getElementById('totalPagar');
+  const btnCalcular = document.getElementById('btnCalcular');
+  const btnLimpiar = document.getElementById('btnLimpiar');
+
+  btnCalcular.addEventListener('click', calcularPropina);
+
+  function calcularPropina() {
+    const monto = parseFloat(totalInput.value);
+    const porcentaje = parseFloat(porcentajeInput.value) / 100;
+    const propina = monto * porcentaje;
+    const totalPagar = monto + propina;
+    propinaInput.value = propina.toFixed(2);
+    totalPagarInput.value = totalPagar.toFixed(2);
+  }
+
+  btnLimpiar.addEventListener('click', limpiarCampos);
+
+  function limpiarCampos() {
+    totalInput.value = '';
+    porcentajeInput.value = '';
+    propinaInput.value = '';
+    totalPagarInput.value = '';
+  }
+</script>
